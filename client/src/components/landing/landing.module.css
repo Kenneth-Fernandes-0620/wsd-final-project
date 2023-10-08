@@ -1,0 +1,98 @@
+.container {
+  text-align: center;
+  background: #1df5b5;
+  min-height: 100vh;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landingcontent {
+  height: 98vh;
+  width: 99%;
+  background: #a1e1cb;
+  border: 3px solid black;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background: white;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 7px 7px 0px 0px;
+  padding: 0px 10px 0px 10px;
+}
+
+.navbar > span {
+  color: #c8815f;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.navbar > div {
+  display: flex;
+}
+
+.navbar > div > a {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.content {
+  flex: 1;
+}
+
+.account_icon_container {
+  background: white;
+}
+
+.account_icon_container :hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.landing_buttons_container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar {
+  background: white;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 7px 7px 0px 0px;
+  padding: 0px 10px 0px 10px;
+}
+
+.navbar > span {
+  color: #c8815f;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.navbar > div {
+  display: flex;
+}
+
+.navbar > div > a {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.content {
+  flex: 1;
+  /* background:  */
+}

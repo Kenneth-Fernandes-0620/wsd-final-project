@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Depression",
+    "description": "A mood disorder characterized by persistent sadness, loss of interest or pleasure, and feelings of hopelessness.",
+    "symptoms": [
+      "Persistent low mood",
+      "Loss of interest in activities",
+      "Fatigue",
+      "Difficulty concentrating",
+      "Feelings of worthlessness or guilt"
+    ]
+  },
+  {
+    "name": "Anxiety Disorders",
+    "description": "A group of disorders characterized by excessive worry, fear, or anxiety, often leading to avoidance behavior.",
+    "symptoms": [
+      "Excessive worry",
+      "Restlessness",
+      "Rapid heartbeat",
+      "Muscle tension",
+      "Panic attacks"
+    ]
+  },
+  {
+    "name": "Bipolar Disorder",
+    "description": "A mood disorder marked by extreme shifts in mood, including manic episodes of elevated mood and energy.",
+    "symptoms": [
+      "Manic episodes",
+      "Depressive episodes",
+      "Impulsivity",
+      "Grandiose thinking",
+      "Increased energy"
+    ]
+  },
+  {
+    "name": "Schizophrenia",
+    "description": "A severe mental disorder characterized by distorted thinking, hallucinations, and delusions.",
+    "symptoms": [
+      "Hallucinations",
+      "Delusions",
+      "Disorganized thinking",
+      "Social withdrawal",
+      "Impaired cognitive function"
+    ]
+  },
+  {
+    "name": "Post-Traumatic Stress Disorder (PTSD)",
+    "description": "A condition that can develop after exposure to a traumatic event, leading to flashbacks, nightmares, and severe anxiety.",
+    "symptoms": [
+      "Flashbacks",
+      "Nightmares",
+      "Avoidance of reminders",
+      "Irritability",
+      "Hyperarousal"
+    ]
+  },
+  {
+    "name": "Obsessive-Compulsive Disorder (OCD)",
+    "description": "A disorder characterized by intrusive, repetitive thoughts (obsessions) and the need to perform certain rituals or behaviors (compulsions).",
+    "symptoms": [
+      "Obsessions",
+      "Compulsions",
+      "Anxiety when rituals are not performed",
+      "Time-consuming rituals",
+      "Intrusive thoughts"
+    ]
+  },
+  {
+    "name": "Eating Disorders",
+    "description": "A group of conditions, including anorexia nervosa and bulimia nervosa, characterized by unhealthy eating habits and body image concerns.",
+    "symptoms": [
+      "Restricting food intake",
+      "Binge eating",
+      "Purging behaviors",
+      "Distorted body image",
+      "Fear of weight gain"
+    ]
+  },
+  {
+    "name": "Attention-Deficit/Hyperactivity Disorder (ADHD)",
+    "description": "A neurodevelopmental disorder marked by symptoms such as inattention, hyperactivity, and impulsivity.",
+    "symptoms": [
+      "Inattention",
+      "Hyperactivity",
+      "Impulsivity",
+      "Difficulty organizing tasks",
+      "Forgetfulness"
+    ]
+  },
+  {
+    "name": "Borderline Personality Disorder (BPD)",
+    "description": "A condition characterized by unstable relationships, self-image, and emotions, often leading to impulsive behavior and intense mood swings.",
+    "symptoms": [
+      "Fear of abandonment",
+      "Impulsive behaviors",
+      "Intense and unstable relationships",
+      "Identity disturbances",
+      "Suicidal thoughts or self-harm"
+    ]
+  },
+  {
+    "name": "Substance Use Disorder",
+    "description": "A condition involving the excessive use of drugs or alcohol, often leading to physical and psychological dependence.",
+    "symptoms": [
+      "Craving for the substance",
+      "Loss of control over use",
+      "Withdrawal symptoms",
+      "Tolerance to the substance",
+      "Neglecting other activities in favor of substance use"
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "title": "The 7 Habits of Highly Effective People",
+    "author": "Stephen R. Covey",
+    "published_year": 1989,
+    "rating": 4.1
+  },
+  {
+    "title": "How to Win Friends and Influence People",
+    "author": "Dale Carnegie",
+    "published_year": 1936,
+    "rating": 4.2
+  },
+  {
+    "title": "Awaken the Giant Within",
+    "author": "Tony Robbins",
+    "published_year": 1991,
+    "rating": 4.0
+  },
+  {
+    "title": "The Power of Now",
+    "author": "Eckhart Tolle",
+    "published_year": 1997,
+    "rating": 4.1
+  },
+  {
+    "title": "Mindset: The New Psychology of Success",
+    "author": "Carol S. Dweck",
+    "published_year": 2006,
+    "rating": 4.5
+  },
+  {
+    "title": "You Are a Badass",
+    "author": "Jen Sincero",
+    "published_year": 2013,
+    "rating": 4.0
+  },
+  {
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "published_year": 2018,
+    "rating": 4.8
+  },
+  {
+    "title": "The Subtle Art of Not Giving a F*ck",
+    "author": "Mark Manson",
+    "published_year": 2016,
+    "rating": 4.0
+  },
+  {
+    "title": "Daring Greatly",
+    "author": "Brené Brown",
+    "published_year": 2012,
+    "rating": 4.2
+  },
+  {
+    "title": "Grit: The Power of Passion and Perseverance",
+    "author": "Angela Duckworth",
+    "published_year": 2016,
+    "rating": 4.2
+  }
+]

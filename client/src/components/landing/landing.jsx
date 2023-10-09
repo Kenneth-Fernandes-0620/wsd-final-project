@@ -16,12 +16,15 @@ function Landing({ user }) {
     <div className={styles.container}>
       <div className={styles.landingcontent}>
         <div className={styles.navbar}>
-          <span>Topic</span>
+          <span>Solace</span>
           <div>
             <Button variant="text" color="inherit" onClick={() => navigate('/', { replace: true })}>
               Home
             </Button>
-            <Button variant="text" color="inherit">
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => navigate('/appointment', { replace: true })}>
               Book Appointment
             </Button>
             <Button variant="text" color="inherit">
@@ -71,7 +74,12 @@ function Landing({ user }) {
               - Unknown
             </p>
             <div className={styles.landing_buttons_container}>
-              <Button variant="contained" color="success">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  navigate('/conditions', { replace: true });
+                }}>
                 Conditions
               </Button>
               <Button variant="contained" color="success">

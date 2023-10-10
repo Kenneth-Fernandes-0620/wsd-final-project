@@ -9,11 +9,12 @@ import Landing from './components/landing/landing';
 import SignUp from './components/signup/signup';
 import Login from './components/login/login';
 
-import { auth } from './utils/Auth/Auth';
+import { auth, db } from './utils/Auth/Auth';
 
 import './App.css';
 import Conditions from './components/condition_info/conditions';
 import Appointment from './components/appointment_booking/appointment';
+import Appointments from './components/appointments/appointments';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,7 +48,8 @@ function App() {
         path="/dashboard"
         element={user ? <h1>Dashboard</h1> : <Navigate to="/login" replace />}
       />
-      <Route path="/appointment" element={<Appointment />} />
+      <Route path="/appointment" element={<Appointment db={db} user={user} />} />
+      <Route path="/appointments" element={<Appointments db={db} user={user} />} />
       <Route path="/conditions" element={<Conditions user={user} />} />
     </Routes>
   );

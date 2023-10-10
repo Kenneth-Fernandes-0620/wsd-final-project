@@ -1,6 +1,7 @@
 /* eslint-disable  */
 
 function isValidEmail(email) {
+  if (email.length === 0) return false
   return new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$").test(email);
 }
 
@@ -10,11 +11,11 @@ function isValidUserName(userName) {
 }
 
 function isValidPassword(password) {
-  if (password.length < 8) return { result: false, message: 'Password Too Short' }
-  else if (!new RegExp("^[a-z]+$").test(password)) return { result: false, message: 'Password missing lower case alphabets' }
-  else if (!new RegExp("^[A-Z]+$").test(password)) return { result: false, message: 'Password missing upper case alphabets' }
-  else if (!new RegExp("^[0-9]+$").test(password)) return { result: false, message: 'Password missing digits' }
-  else if (!new RegExp("^[*!&%#@]+$").test(password)) return { result: false, message: 'Password missing special Characters' }
+  if (password.length < 8) return { result: false, message: ' Too Short' }
+  else if (!new RegExp("[a-z]+").test(password)) return { result: false, message: ' missing lower case alphabets' }
+  else if (!new RegExp("[A-Z]+").test(password)) return { result: false, message: ' missing upper case alphabets' }
+  else if (!new RegExp("[0-9]+").test(password)) return { result: false, message: ' missing digits' }
+  else if (!new RegExp("[*!&%#@]+").test(password)) return { result: false, message: ' missing special Characters' }
   return { result: true, message: '' };
 }
 

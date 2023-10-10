@@ -15,6 +15,7 @@ import './App.css';
 import Conditions from './components/condition_info/conditions';
 import Appointment from './components/appointment_booking/appointment';
 import Appointments from './components/appointments/appointments';
+import Books from './components/books/books';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Landing user={user} />} />
+      <Route path="/" element={<Landing user={user} auth={auth} />} />
       <Route path="/signup" element={<SignUp auth={auth} />} />
       <Route path="/login" element={<Login auth={auth} />} />
       <Route path="/anxiety" element={<h1>Login</h1>} />
@@ -48,9 +49,10 @@ function App() {
         path="/dashboard"
         element={user ? <h1>Dashboard</h1> : <Navigate to="/login" replace />}
       />
-      <Route path="/appointment" element={<Appointment db={db} user={user} />} />
-      <Route path="/appointments" element={<Appointments db={db} user={user} />} />
-      <Route path="/conditions" element={<Conditions user={user} />} />
+      <Route path="/appointment" element={<Appointment db={db} user={user} auth={auth} />} />
+      <Route path="/appointments" element={<Appointments db={db} user={user} auth={auth} />} />
+      <Route path="/conditions" element={<Conditions user={user} db={db} />} auth={auth} />
+      <Route path="/books" element={<Books user={user} db={db} />} auth={auth} />
     </Routes>
   );
 }

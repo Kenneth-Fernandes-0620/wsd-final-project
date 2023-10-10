@@ -3,12 +3,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { collection, getDocs, query } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
 import styles from './appointments.module.css';
 import componentBackground from '../../assets/conditions.png';
 import BasicTable from './render_table';
@@ -25,7 +26,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
 
-export default function Appointments({ user, db }) {
+export default function Appointments({ user, db, auth }) {
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
@@ -42,6 +43,27 @@ export default function Appointments({ user, db }) {
     fetchData();
   }, []);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        // handleCloseMenu();
+        navigate('/login', { replace: true });
+      })
+      .catch((er) => {
+        // An error happened.
+      });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.landingcontent}>
@@ -57,21 +79,45 @@ export default function Appointments({ user, db }) {
               onClick={() => navigate('/appointment', { replace: true })}>
               Book Appointment
             </Button>
-            <Button variant="text" color="inherit">
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => navigate('/books', { replace: true })}>
               Books
-            </Button>
-            <Button variant="text" color="inherit">
-              About
             </Button>
           </div>
           <div
             style={{ cursor: 'pointer', padding: '5px' }}
             className={styles.account_icon_container}>
             <FontAwesomeIcon
-              onClick={() => navigate(user ? '/account' : '/login', {})}
+              title={user?.email ?? 'login'}
+              onClick={(ev) => {
+                if (!user) navigate('/login', { replace: true });
+                else handleClick(ev);
+              }}
               icon={faUser}
               style={{ padding: '10px', border: '1px solid transparent', borderRadius: '30px' }}
             />
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left'
+              }}>
+              <MenuItem onClick={handleCloseMenu}>
+                <Button onClick={handleLogout} variant="contained" color="error">
+                  Logout
+                </Button>
+              </MenuItem>
+            </Menu>
           </div>
         </div>
         <div
@@ -108,6 +154,7 @@ export default function Appointments({ user, db }) {
 }
 
 Appointments.propTypes = {
+  db: PropTypes.any.isRequired,
   user: PropTypes.any.isRequired,
-  db: PropTypes.any.isRequired
+  auth: PropTypes.any.isRequired
 };

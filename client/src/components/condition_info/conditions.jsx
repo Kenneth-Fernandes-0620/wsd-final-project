@@ -10,15 +10,17 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
+import { collection, getDocs } from 'firebase/firestore';
 
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import componentBackground from '../../assets/conditions.png';
 import styles from './conditions.module.css';
 
-export default function Conditions({ user }) {
+export default function Conditions({ user, db }) {
+  const [ConditionList, setConditionList] = useState([]);
   const [open, setOpen] = useState({ isOpen: false, message: '' });
 
   const navigate = useNavigate();
@@ -28,8 +30,23 @@ export default function Conditions({ user }) {
   };
 
   const handleOpen = (message) => {
-    setOpen({ isOpen: true, message });
+    setOpen({ isOpen: true, ...message });
   };
+
+  useEffect(() => {
+    async function loadConditions() {
+      const querySnapshot = await getDocs(collection(db, 'conditions'));
+      const tempData = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        tempData.push(doc.data());
+      });
+      setConditionList(tempData);
+    }
+    loadConditions();
+  }, []);
+
+  console.log(open?.symptoms);
 
   return (
     <>
@@ -38,22 +55,28 @@ export default function Conditions({ user }) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Condition Information on {open.message}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Condition Information on {open.name}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
+            <span>{open.description}</span>
             <h4>Symptoms</h4>
+            <ul>
+              {open?.symptoms?.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} autoFocus>
-            Agree
+            OK
           </Button>
         </DialogActions>
       </Dialog>
       <div className={styles.container}>
         <div className={styles.landingcontent}>
           <div className={styles.navbar}>
-            <span>Topic</span>
+            <span>Solace</span>
             <div>
               <Button
                 variant="text"
@@ -61,14 +84,17 @@ export default function Conditions({ user }) {
                 onClick={() => navigate('/', { replace: true })}>
                 Home
               </Button>
-              <Button variant="text" color="inherit">
+              <Button
+                variant="text"
+                color="inherit"
+                onClick={() => navigate('/', { replace: true })}>
                 Book Appointment
               </Button>
-              <Button variant="text" color="inherit">
+              <Button
+                variant="text"
+                color="inherit"
+                onClick={() => navigate('/books', { replace: true })}>
                 Books
-              </Button>
-              <Button variant="text" color="inherit">
-                About
               </Button>
             </div>
             <div
@@ -122,64 +148,37 @@ export default function Conditions({ user }) {
                     justifyContent: 'space-between',
                     gap: 10
                   }}>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}
-                    onClick={() => handleOpen('Anxiety')}>
-                    Anxiety
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
+                  {ConditionList.map(
+                    (element, index) =>
+                      index <= 5 && (
+                        <Button
+                          key={element.name}
+                          variant="contained"
+                          style={{ backgroundColor: '#B7E096', color: 'black' }}
+                          onClick={() => handleOpen(element)}>
+                          {element.name}
+                        </Button>
+                      )
+                  )}
                 </div>
                 <div
                   style={{
                     display: 'flex',
-                    justifyContent: 'space-evenly',
+                    justifyContent: 'space-between',
                     gap: 10
                   }}>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: '#B7E096', color: 'black' }}>
-                    Conditions
-                  </Button>
+                  {ConditionList.map(
+                    (element, index) =>
+                      index >= 5 && (
+                        <Button
+                          key={element.name}
+                          variant="contained"
+                          style={{ backgroundColor: '#B7E096', color: 'black' }}
+                          onClick={() => handleOpen(element)}>
+                          {element.name}
+                        </Button>
+                      )
+                  )}
                 </div>
               </div>
             </div>
@@ -190,5 +189,6 @@ export default function Conditions({ user }) {
   );
 }
 Conditions.propTypes = {
-  user: PropTypes.any.isRequired
+  user: PropTypes.any.isRequired,
+  db: PropTypes.any.isRequired
 };

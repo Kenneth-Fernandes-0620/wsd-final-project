@@ -202,15 +202,8 @@ export default function BasicTable({ rows, db, setAppointments }) {
             </Grid>
 
             <Grid item xs={postXs} sm={postSm} />
-            <Grid item xs={1} />
-            <Grid item xs={10}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  navigate('/appointments', { replace: true });
-                }}>
-                View All Appointments
-              </Button>
+            <Grid item xs={2} />
+            <Grid item xs={8}>
               <Button
                 variant="contained"
                 color="success"
@@ -219,7 +212,7 @@ export default function BasicTable({ rows, db, setAppointments }) {
                 Update Appointment
               </Button>
             </Grid>
-            <Grid item xs={1} />
+            <Grid item xs={2} />
           </Grid>
         </List>
       </Dialog>

@@ -12,12 +12,14 @@ import {
   DialogTitle,
   Grid,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   TextField,
   Typography
 } from '@mui/material';
 
+import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -38,7 +40,7 @@ import { isValidDate, isValidUserName } from '../../utils/validation';
 //   }
 // ];
 
-export default function Appointment({ db, user }) {
+export default function Appointment({ db, user, auth }) {
   const [condition, setCondition] = useState(0);
   const [doctor, setDoctor] = useState(0);
   const [illness, setIllnesses] = useState([]);
@@ -46,6 +48,15 @@ export default function Appointment({ db, user }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState(dayjs(new Date()));
   const [error, setError] = useState({ error: false, message: '' });
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   const navigate = useNavigate();
 
@@ -60,6 +71,18 @@ export default function Appointment({ db, user }) {
 
   const handleChangeDoctor = (ev) => {
     setDoctor(ev.target.value);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        // handleCloseMenu();
+        navigate('/login', { replace: true });
+      })
+      .catch((er) => {
+        // An error happened.
+      });
   };
 
   useEffect(() => {
@@ -146,21 +169,45 @@ export default function Appointment({ db, user }) {
               <Button variant="text" color="inherit">
                 Book Appointment
               </Button>
-              <Button variant="text" color="inherit">
+              <Button
+                variant="text"
+                color="inherit"
+                onClick={() => navigate('/books', { replace: true })}>
                 Books
-              </Button>
-              <Button variant="text" color="inherit">
-                About
               </Button>
             </div>
             <div
               style={{ cursor: 'pointer', padding: '5px' }}
               className={styles.account_icon_container}>
               <FontAwesomeIcon
-                onClick={() => navigate(user ? '/account' : '/login', {})}
+                title={user?.email ?? 'login'}
+                onClick={(ev) => {
+                  if (!user) navigate('/login', { replace: true });
+                  else handleClick(ev);
+                }}
                 icon={faUser}
                 style={{ padding: '10px', border: '1px solid transparent', borderRadius: '30px' }}
               />
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleCloseMenu}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left'
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left'
+                }}>
+                <MenuItem onClick={handleClose}>
+                  <Button onClick={handleLogout} variant="contained" color="error">
+                    Logout
+                  </Button>
+                </MenuItem>
+              </Menu>
             </div>
           </div>
           <div
@@ -290,7 +337,7 @@ export default function Appointment({ db, user }) {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          navigate('/appointments', { replace: true });
+                          navigate(user ? '/appointments' : '/login', { replace: true });
                         }}>
                         View All Appointments
                       </Button>
@@ -314,5 +361,6 @@ export default function Appointment({ db, user }) {
 }
 Appointment.propTypes = {
   db: PropTypes.any.isRequired,
-  user: PropTypes.any.isRequired
+  user: PropTypes.any.isRequired,
+  auth: PropTypes.any.isRequired
 };

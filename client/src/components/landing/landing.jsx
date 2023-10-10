@@ -2,15 +2,39 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { useState } from 'react';
+import { signOut } from 'firebase/auth';
 import styles from './landing.module.css';
 import componentBackground from '../../assets/green-leaves.jpg';
 
-function Landing({ user }) {
+function Landing({ user, auth }) {
   const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        // handleCloseMenu();
+        navigate('/login', { replace: true });
+      })
+      .catch(() => {
+        // An error happened.
+      });
+  };
 
   return (
     <div className={styles.container}>
@@ -24,24 +48,52 @@ function Landing({ user }) {
             <Button
               variant="text"
               color="inherit"
-              onClick={() => navigate('/appointment', { replace: true })}>
+              onClick={() =>
+                user
+                  ? navigate('/appointment', { replace: true })
+                  : navigate('/login', { replace: true })
+              }>
               Book Appointment
             </Button>
-            <Button variant="text" color="inherit">
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={() => navigate('/books', { replace: true })}>
               Books
-            </Button>
-            <Button variant="text" color="inherit">
-              About
             </Button>
           </div>
           <div
             style={{ cursor: 'pointer', padding: '5px' }}
             className={styles.account_icon_container}>
             <FontAwesomeIcon
-              onClick={() => navigate(user ? '/account' : '/login', {})}
+              title={user?.email ?? 'login'}
+              onClick={(ev) => {
+                if (!user) navigate('/login', { replace: true });
+                else handleClick(ev);
+              }}
               icon={faUser}
               style={{ padding: '10px', border: '1px solid transparent', borderRadius: '30px' }}
             />
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left'
+              }}>
+              <MenuItem onClick={handleCloseMenu}>
+                <Button onClick={handleLogout} variant="contained" color="error">
+                  Logout
+                </Button>
+              </MenuItem>
+            </Menu>
           </div>
         </div>
         <div
@@ -61,6 +113,8 @@ function Landing({ user }) {
               backgroundColor: 'rgba(62,7,7,0.62)',
               width: '40%',
               height: '50%',
+              minHeight: '300px',
+              minWidth: '400px',
               border: '1px solid black',
               borderRadius: '10px',
               boxShadow: '0px 0px 10px',
@@ -80,10 +134,7 @@ function Landing({ user }) {
                 onClick={() => {
                   navigate('/conditions', { replace: true });
                 }}>
-                Conditions
-              </Button>
-              <Button variant="contained" color="success">
-                Doctors
+                View Conditions
               </Button>
             </div>
           </div>
@@ -94,7 +145,8 @@ function Landing({ user }) {
 }
 
 Landing.propTypes = {
-  user: PropTypes.any.isRequired
+  user: PropTypes.any.isRequired,
+  auth: PropTypes.any.isRequired
 };
 
 export default Landing;

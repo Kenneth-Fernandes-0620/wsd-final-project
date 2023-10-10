@@ -16,6 +16,7 @@ import Conditions from './components/condition_info/conditions';
 import Appointment from './components/appointment_booking/appointment';
 import Appointments from './components/appointments/appointments';
 import Books from './components/books/books';
+import log from './utils/logger';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ function App() {
     onAuthStateChanged(auth, (userToken) => {
       setUser(userToken);
     });
+    log({ message: 'App Started' });
   }, []);
 
   useEffect(() => {

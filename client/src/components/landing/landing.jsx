@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import styles from './landing.module.css';
 import componentBackground from '../../assets/green-leaves.jpg';
+import log from '../../utils/logger';
 
 function Landing({ user, auth }) {
   const navigate = useNavigate();
@@ -27,8 +28,7 @@ function Landing({ user, auth }) {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
-        // handleCloseMenu();
+        log('event', `AuthEvent: user Logged out`);
         navigate('/login', { replace: true });
       })
       .catch(() => {

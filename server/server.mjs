@@ -19,25 +19,17 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 
-app.post('/api', (req, res) => {
-    console.log(req.body)
-    console.log("Connection Ok")
+app.post('/api/log', (req, res) => {
+    logDataToFile(`${new Date().toDateString()}req.body.event`)
     res.status(200).send({ res: 'ok' });
 })
 
-app.get("/api/log", (req, res) => {
-    console.log(req);
-    res.sendStatus(200);
-})
-
 app.listen(port, () =>
-    console.log(`${corsOptions.origin}`)
+    console.log(`Allowed hosts: ${corsOptions.origin}`)
 )
 
-function logDataToFile(data, filePath) {
-    const dataString = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
-
-    fs.appendFile(filePath, dataString + '\n', (err) => {
+function logDataToFile(data) {
+    fs.appendFile('log.txt', data + '\n', (err) => {
         if (err)
             console.error('Error writing to the file:', err);
         else

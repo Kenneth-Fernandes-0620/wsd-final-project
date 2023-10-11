@@ -25,9 +25,9 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (userToken) => {
+      log('event', `AuthEvent: ${userToken.email} Logged In`);
       setUser(userToken);
     });
-    log({ message: 'App Started' });
   }, []);
 
   useEffect(() => {

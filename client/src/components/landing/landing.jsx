@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
+import { motion } from 'framer-motion';
 import styles from './landing.module.css';
 import componentBackground from '../../assets/green-leaves.jpg';
 import log from '../../utils/logger';
@@ -26,9 +27,9 @@ function Landing({ user, auth }) {
   };
 
   const handleLogout = () => {
+    log('event', `AuthEvent: user ${user?.email} Logged out`);
     signOut(auth)
       .then(() => {
-        log('event', `AuthEvent: user Logged out`);
         navigate('/login', { replace: true });
       })
       .catch(() => {
@@ -37,7 +38,11 @@ function Landing({ user, auth }) {
   };
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}>
       <div className={styles.landingcontent}>
         <div className={styles.navbar}>
           <span>Solace</span>
@@ -140,7 +145,7 @@ function Landing({ user, auth }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

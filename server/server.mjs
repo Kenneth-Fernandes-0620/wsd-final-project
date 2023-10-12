@@ -20,7 +20,7 @@ app.use(express.urlencoded())
 
 
 app.post('/api/log', (req, res) => {
-    logDataToFile(`${new Date().toDateString()}req.body.event`)
+    logDataToFile(`${new Date().toString()}, ${req.body.event}`)
     res.status(200).send({ res: 'ok' });
 })
 

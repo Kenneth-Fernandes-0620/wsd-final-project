@@ -15,6 +15,8 @@ import {
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 import styles from './login.module.css';
 import { isValidEmail, isValidPassword } from '../../utils/validation';
 
@@ -72,7 +74,11 @@ export default function Login({ auth }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={styles.container}>
+      <motion.div
+        className={styles.container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}>
         <div className={styles.content}>
           <div className={styles.content_left}>
             <div className={styles.overlay_div}>
@@ -130,7 +136,7 @@ export default function Login({ auth }) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

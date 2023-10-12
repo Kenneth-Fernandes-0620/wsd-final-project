@@ -92,8 +92,6 @@ export default function BasicTable({ rows, db, setAppointments }) {
 
   const navigate = useNavigate();
 
-  console.log(updatedRows);
-
   return (
     <>
       <Dialog onClose={handleClose} open={updatedRows !== null}>

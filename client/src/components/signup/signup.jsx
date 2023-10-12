@@ -15,8 +15,11 @@ import {
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 import styles from './signup.module.css';
 import { isValidEmail, isValidPassword } from '../../utils/validation';
+import log from '../../utils/logger';
 
 export default function SignUp({ auth }) {
   const [username, setUsername] = useState('');
@@ -29,19 +32,16 @@ export default function SignUp({ auth }) {
 
   const handleSubmit = () => {
     const validEmail = isValidEmail(email);
-    console.log(validEmail);
     if (!validEmail) {
       setError({ error: true, message: 'invalid Email' });
       return;
     }
-    console.log(password);
     const validPassword = isValidPassword(password);
     if (!validPassword.result) {
       console.log('reached here');
       setError({ error: true, message: `password ${validPassword.message}` });
       return;
     }
-    console.log('reached here');
     if (password !== repeatPassword) {
       setError({ error: true, message: 'Repeat Password must match the password' });
       return;
@@ -55,9 +55,8 @@ export default function SignUp({ auth }) {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('User Logged In');
-        console.log(userCredential);
         navigate('/', { replace: true });
+        log('event', `AuthEvent: ${userCredential.user.email} Created an Account`);
       })
       .catch((e) => {
         const errorMessage = e.message;
@@ -86,7 +85,11 @@ export default function SignUp({ auth }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={styles.container}>
+      <motion.div
+        className={styles.container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}>
         <div className={styles.content}>
           <div className={styles.content_left}>
             <div className={styles.overlay_div}>
@@ -163,7 +166,7 @@ export default function SignUp({ auth }) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

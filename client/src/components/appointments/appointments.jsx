@@ -7,9 +7,12 @@ import { Button, Menu, MenuItem } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-import { collection, getDocs, query } from 'firebase/firestore';
+import PropTypes, { element } from 'prop-types';
+import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
+
+import { motion } from 'framer-motion';
+
 import styles from './appointments.module.css';
 import componentBackground from '../../assets/conditions.png';
 import BasicTable from './render_table';
@@ -32,7 +35,7 @@ export default function Appointments({ user, db, auth }) {
 
   useEffect(() => {
     async function fetchData() {
-      const q = query(collection(db, 'appointments'));
+      const q = query(collection(db, 'appointments'), where('userEmail', '==', user.email));
       const querySnapshot = await getDocs(q);
       const temp = [];
       querySnapshot.forEach((doc) => {
@@ -40,8 +43,34 @@ export default function Appointments({ user, db, auth }) {
       });
       setAppointments(temp);
     }
-    fetchData();
-  }, []);
+    // if (user) fetchData();
+    if (user) {
+      const q = query(collection(db, 'appointments'), where('userEmail', '==', user.email));
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        setAppointments((prevAppointments) => {
+          let temp = prevAppointments;
+          console.log(temp);
+          querySnapshot.docChanges().forEach((item) => {
+            if (item.type === 'added') {
+              temp.push({ ...item.doc.data(), id: item.doc.id });
+            } else if (item.type === 'modified') {
+              temp = appointments;
+              temp[item.oldIndex] = { ...item.doc.data(), id: item.doc.id };
+            } else if (item.type === 'removed') {
+              appointments.filter((elementItem) => elementItem.id !== item.doc.id);
+            }
+          });
+          return [...temp];
+        });
+      });
+      return unsub;
+    }
+    return () => {};
+  }, [user]);
+
+  useEffect(() => {
+    console.log('Appointments Updated');
+  }, [appointments]);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -65,7 +94,11 @@ export default function Appointments({ user, db, auth }) {
   };
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}>
       <div className={styles.landingcontent}>
         <div className={styles.navbar}>
           <span>Solace</span>
@@ -149,7 +182,7 @@ export default function Appointments({ user, db, auth }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

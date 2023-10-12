@@ -16,6 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { useEffect, useState } from 'react';
+
+import { motion } from 'framer-motion';
+
 import componentBackground from '../../assets/conditions.png';
 import styles from './conditions.module.css';
 
@@ -46,8 +49,6 @@ export default function Conditions({ user, db }) {
     loadConditions();
   }, []);
 
-  console.log(open?.symptoms);
-
   return (
     <>
       <Dialog
@@ -73,7 +74,11 @@ export default function Conditions({ user, db }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={styles.container}>
+      <motion.div
+        className={styles.container}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}>
         <div className={styles.landingcontent}>
           <div className={styles.navbar}>
             <span>Solace</span>
@@ -184,7 +189,7 @@ export default function Conditions({ user, db }) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
